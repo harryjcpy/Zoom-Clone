@@ -18,7 +18,7 @@ app.use(express.urlencoded({limit: "40kb", extended: true}));
 app.use("/api/v1/users", userRoutes)
 
 const start = async () => {
-    const connectionDb = await mongoose.connect("mongodb+srv://harry15766:k6IEpY8OyEeTS3ME@cluster0.2wjoq.mongodb.net/zoom-clone");
+    const connectionDb = await mongoose.connect(process.env.DB_URL);
     console.log(`Mongo Connected DB Host: ${connectionDb.connection.host}`)
     server.listen(app.get('port'), () => {
         console.log("Listening on port 8000")
