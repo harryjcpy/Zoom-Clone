@@ -12,8 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
+import { AuthContext } from '../contexts/AuthContext';
+import { Snackbar } from '@mui/material';
 
 const theme = createTheme();
 
@@ -26,6 +26,26 @@ export default function Authentication() {
   const [message, setMessage] = React.useState();
   const [formState, setFormState] = React.useState(1);
   const [open, setOpen] = React.useState(false);
+  const {handleRegister, handleLogin} = React.useContext(AuthContext)
+
+
+  let handleAuth = async () => {
+    try {
+      if(formState === 0){
+
+      }
+      if(formState === 1){
+        let result = await handleRegister(name, username, password);
+        console.log(result);
+        setMessage(result);
+        setOpen(true);
+      }
+      
+    } catch (error) {
+      let message = (err.response.data.message);
+      setMessage(message);
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,7 +57,7 @@ export default function Authentication() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(../../public/authBg.jpg)',
+            backgroundImage: 'url(/authBg.jpg)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -116,6 +136,14 @@ export default function Authentication() {
           </Box>
         </Grid>
       </Grid>
+
+      <Snackbar 
+      open={open}
+      autoHideDuration={4000}
+      message={message}
+      />
+
+
     </ThemeProvider>
   );
 }
